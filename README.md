@@ -210,6 +210,7 @@ keep `core/` free of GUI dependencies, and build both apps before committing.
 
 ## License
 
-No license has been chosen yet; add a `LICENSE` file before distributing.
+QTllama is released under the [MIT License](LICENSE).
+
 Third-party components keep their own licenses: llama.cpp (MIT), Qt (LGPLv3/GPL/commercial),
 and each model's own license (Qwen3.5 uses Apache 2.0).

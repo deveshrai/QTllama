@@ -18,6 +18,7 @@ cli.depends = core
 
 OTHER_FILES += \
     README.md \
+    LICENSE \
     CHANGELOG.md \
     CONTRIBUTING.md \
     docs/ARCHITECTURE.md \
