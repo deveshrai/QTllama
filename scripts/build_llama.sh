@@ -13,7 +13,7 @@ set -eu
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/third_party/llama.cpp"
 BUILD="$ROOT/third_party/llama-build"
-PREFIX="$ROOT/third_party/llama-install"
+INSTALL_PREFIX="$ROOT/third_party/llama-install"
 BUILD_TYPE="${BUILD_TYPE:-Release}"
 
 if [ ! -f "$SRC/CMakeLists.txt" ]; then
@@ -35,7 +35,7 @@ esac
 # ggml falls back to its own thread pool.
 set -- \
     -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
-    -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+    -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" \
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -DBUILD_SHARED_LIBS=OFF \
     -DLLAMA_BUILD_COMMON=OFF \
@@ -66,8 +66,8 @@ echo "==> Configuring llama.cpp ($OS, $BUILD_TYPE)"
 cmake -S "$SRC" -B "$BUILD" "$@"
 echo "==> Building with $JOBS jobs"
 cmake --build "$BUILD" --config "$BUILD_TYPE" -j "$JOBS"
-echo "==> Installing to $PREFIX"
+echo "==> Installing to $INSTALL_PREFIX"
 cmake --install "$BUILD" --config "$BUILD_TYPE"
 
 echo "==> Done. Libraries:"
-ls "$PREFIX/lib" | grep -E '\.(a|lib)$' || true
+ls "$INSTALL_PREFIX/lib" | grep -E '\.(a|lib)$' || true

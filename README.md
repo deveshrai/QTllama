@@ -66,9 +66,10 @@ Qt is a comprehensive cross-platform application development framework ...
 |---|---|---|---|
 | macOS 13+ on Apple Silicon | ✅ Tested (M2, Homebrew Qt 6.5) | Metal | Primary development machine |
 | Linux x86-64 / ARM64 | ✅ Supported | CPU (AVX/NEON); Vulkan or CUDA optional | Qt ≥ 6.2, e.g. Ubuntu 22.04+, Debian 12+ |
-| Android via Termux (e.g. Galaxy Tab S12+) | ✅ Supported | CPU (ARMv8.x dotprod/i8mm) | GUI runs under Termux:X11 |
+| Android via Termux | ✅ Tested (Samsung SM-X840, MediaTek MT6993, Qt 6.12) | CPU (ARMv9 dotprod/i8mm/SVE/SME) | GUI runs under Termux:X11 |
 
-> Linux and Termux builds are expected to work but haven't been verified yet.
+> Desktop Linux builds are expected to work but haven't been verified yet.
+> On Termux, run the build script as `sh scripts/build_llama.sh` (Termux has no `/usr/bin/env`).
 > See [docs/BUILDING.md](docs/BUILDING.md) for per-platform steps and known quirks.
 
 ## Quick start
@@ -200,8 +201,13 @@ Measured with Qwen3.5 4B Q4_K_M, 8K context, default settings:
 |---|---|---|
 | Apple M2 (8-core) | Metal | ~23–24 tok/s |
 | Apple M2, Qwen3.5 0.8B | Metal | ~88 tok/s |
+| Samsung SM-X840 (MT6993, Termux), GUI | CPU | ~5.8–6 tok/s |
+| Samsung SM-X840 (MT6993, Termux), CLI | CPU | ~7–9 tok/s (prompt 11–31 tok/s) |
+| Samsung SM-X840, Qwen3.5 0.8B, CLI | CPU | ~22–40 tok/s (prompt 150–220 tok/s) |
 
-Contributions for Linux and Android numbers are welcome.
+On the tablet, the 0.8B model often gets stuck re-checking its work in thinking
+mode until the context fills; use it with `--no-think`. The 4B model reasoned
+reliably in the same tests. Contributions for desktop Linux numbers are welcome.
 
 ## Contributing
 

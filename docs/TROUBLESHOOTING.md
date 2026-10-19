@@ -62,6 +62,12 @@ and report the output.
 - Use a smaller model or quant (`qwen3.5-2b`, `Q4_0` on ARM).
 - Android: keep the device plugged in, run `termux-wake-lock`, and avoid thermal throttling.
 
+**Thinking never ends / `Context window is full`**
+Very small models (Qwen3.5 0.8B) can loop while reasoning, re-checking the same
+step until the context fills. Turn thinking off (`--no-think`), cap it with
+`-n/--max-tokens`, or use 2B or larger. On an 8-core Android tablet the 0.8B model
+looped in about half of the test runs; the 4B model didn't loop.
+
 **Slow first reply**
 The first decode includes backend warm-up (Metal shader compilation, memory
 mapping). Later turns reuse the KV cache and start much faster.
@@ -73,7 +79,11 @@ Keep the model in Termux's own storage, not `/sdcard`.
 
 **Blank window or no display under Termux**
 Start Termux:X11 first (`termux-x11 :0 &`) and run the app with `DISPLAY=:0`.
-If you see `could not connect to display`, the X server isn't running.
+If you see `could not connect to display`, the X server isn't running: having the
+Termux:X11 app open isn't enough, `termux-x11 :0` must be running in Termux.
+
+**No title bar or window borders under Termux:X11**
+No window manager is running. Start one before the app, e.g. `DISPLAY=:0 startxfce4 &`.
 
 **Everything is tiny on a tablet**
 Use `QT_SCALE_FACTOR=2` (or 1.5) and/or raise **Text size** in the sidebar.
