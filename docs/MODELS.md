@@ -61,6 +61,8 @@ Reasoning models write a `<think>…</think>` block before answering. QTllama:
 
 Thinking gives better answers to hard questions but can use hundreds of tokens.
 Use `-n/--max-tokens` to cap it, or turn it off for chat and simple lookups.
+The 0.8B model is unreliable with thinking on: it often loops until the context
+is full, so use it with thinking off.
 
 ## Registry format
 

@@ -8,6 +8,12 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ### Added
 - MIT license.
+- Termux build verified on a Samsung SM-X840 (MT6993); tablet performance numbers
+  and Termux notes added to the docs.
+
+### Fixed
+- `scripts/build_llama.sh` no longer overwrites Termux's `$PREFIX`, which broke
+  CMake configuration on Android.
 
 ## [0.1.0] - 2026-10-19
 

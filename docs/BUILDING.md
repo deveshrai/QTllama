@@ -127,8 +127,9 @@ qmake6 ../QTllama.pro CONFIG+=no_gui
 
 ## Android tablet via Termux
 
-Tested target: Samsung Galaxy Tab S12+ (ARM64). Install Termux from F-Droid or
-GitHub; the Play Store build is outdated.
+Tested on a Samsung SM-X840 tablet (MediaTek MT6993, 8 cores) with Termux's
+Qt 6.12 and Clang 21. Install Termux from F-Droid or GitHub; the Play Store build
+is outdated.
 
 ```sh
 pkg update
@@ -137,7 +138,7 @@ pkg install git cmake clang make qt6-qtbase termux-x11-nightly
 pkg search qt6                             # check the exact package names on your device
 
 git clone --recurse-submodules <repo-url> QTllama && cd QTllama
-scripts/build_llama.sh                     # native build; detects dotprod/i8mm
+sh scripts/build_llama.sh                  # native build; detects dotprod/i8mm/SVE/SME
 mkdir build && cd build
 qmake6 ../QTllama.pro                      # if qmake6 is missing: ls $PREFIX/bin | grep qmake
 make -j8
@@ -151,6 +152,11 @@ make -j8
 termux-x11 :0 &
 DISPLAY=:0 QT_SCALE_FACTOR=2 ./gui/qtllama
 ```
+
+Opening the Termux:X11 app doesn't start the X server; `termux-x11 :0` has to be
+running too (check for `$PREFIX/tmp/.X11-unix/X0`). Without a window manager the
+window has no title bar; start one first (e.g. `DISPLAY=:0 startxfce4 &`) if you
+want window decorations.
 
 Tablet tips:
 - Collapse the sidebar with **☰** to give the chat the full width.
@@ -243,6 +249,16 @@ lines of its output.
 ### `fatal error: 'build-info.h' file not found` while building llama.cpp
 An older copy of the script built llama.cpp's own app target. Pull the current
 script (it passes `-DLLAMA_BUILD_APP=OFF`) and remove `third_party/llama-build`.
+
+### `/usr/bin/env: bad interpreter` on Termux
+Termux has no `/usr/bin/env` unless `termux-exec` rewrites shebangs. Run the
+scripts through the shell instead: `sh scripts/build_llama.sh`.
+
+### `.../llama-install/include/android/api-level.h` not found on Termux
+An older copy of `build_llama.sh` named its install directory `PREFIX`, which
+overwrote Termux's exported `$PREFIX` and sent CMake looking for Android headers
+in the wrong place. Pull the current script, remove `third_party/llama-build`, and
+run it again.
 
 ### `framework 'AGL' not found`
 This happens with Qt < 6.6 on a recent macOS SDK. `common.pri` handles shared
