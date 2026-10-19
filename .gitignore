@@ -1,0 +1,28 @@
+# Builds
+build*/
+third_party/llama-build/
+third_party/llama-install/
+Makefile*
+.qmake.stash
+.moc/
+.obj/
+.rcc/
+.ui/
+*.o
+*.a
+*.app/
+cli/qtllama-cli
+gui/qtllama
+
+# Models (large binaries)
+models/*.gguf
+models/*.part
+
+# Editors
+*.pro.user*
+.DS_Store
+.vscode/
+.idea/
+
+# Local Claude Code / tool state
+.claude/

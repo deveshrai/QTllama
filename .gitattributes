@@ -1,0 +1,5 @@
+# Normalise line endings; shell scripts must stay LF for Termux/Linux.
+* text=auto eol=lf
+*.sh text eol=lf
+*.png binary
+*.gguf binary
